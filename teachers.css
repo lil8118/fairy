@@ -1,0 +1,276 @@
+:root{--bg:#f6f8fb;--card:#ffffff;--muted:#8b96a8;--accent:#6b46ff;--accent-2:#7dd7ff}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;background:var(--bg);color:#222}
+    .app{display:flex;min-height:100vh;position:relative}
+
+    /* Sidebar */
+    .sidebar{width:340px;background:linear-gradient(180deg,#fff,#fbfbff);border-right:1px solid #eef2f8;padding:20px;box-sizing:border-box;transition:transform .28s ease,width .28s ease;padding .28s ease;display:flex;flex-direction:column;gap:18px;height:100vh;position:fixed;left:0;top:0;bottom:0;z-index:40}
+    .sidebar.open{z-index:1200}
+    .sidebar.collapsed{width:84px;padding:12px}
+    /* When collapsed show compact icons only */
+    .sidebar.collapsed .brand-text,
+    .sidebar.collapsed .class-item .class-name,
+    .sidebar.collapsed .class-item .class-meta,
+    .sidebar.collapsed .new-class input { display: none !important; }
+
+    .sidebar.collapsed .class-item{ justify-content:center; padding:12px; }
+    .sidebar.collapsed .class-item .class-icon{ width:44px;height:44px;margin:0 }
+    .sidebar.collapsed .new-class{ justify-content:center; padding:8px }
+    .sidebar.collapsed .new-class button{ width:44px; height:44px; padding:0; border-radius:10px; font-size:20px }
+    /* When collapsed show icon-only for the add-class button */
+    .new-class .btn-icon{display:inline-block;margin-right:10px}
+    .new-class .btn-label{display:inline-block}
+    .sidebar.collapsed .new-class .btn-label{display:none !important}
+    .sidebar.collapsed .new-class .btn-icon{margin-right:0}
+    .sidebar.collapsed .new-class button.action-btn{padding:0;display:inline-flex;align-items:center;justify-content:center}
+    .sidebar.collapsed .side-actions{ display:none }
+    .class-item{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .brand{font-weight:800;color:var(--accent);font-size:18px;display:flex;align-items:center;gap:12px}
+    .brand .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ff8bd1);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:900}
+    .brand .logo svg{width:100%;height:100%;display:block;border-radius:10px}
+
+    .side-actions{display:flex;flex-direction:column;gap:10px}
+    .class-list{display:flex;flex-direction:column;gap:8px;overflow:auto;padding-right:6px}
+    .class-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;cursor:pointer;background:transparent;border:1px solid transparent}
+    .class-item:hover{background:#f3f6ff}
+    .class-item.active{background:#eef3ff;border-color:#e5eaff}
+    .class-icon{width:44px;height:44px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:#fff;box-shadow:0 6px 18px rgba(20,30,80,0.06)}
+    .class-name{font-weight:800}
+    .class-meta{color:var(--muted);font-size:13px}
+
+    .new-class{display:flex;gap:8px;align-items:center;padding:10px;border-radius:12px;background:linear-gradient(180deg,#fff,#fafcff);border:1px solid rgba(230,233,239,0.6);box-shadow:0 8px 24px rgba(20,30,80,0.03)}
+    .new-class input{flex:1;padding:10px;border-radius:10px;border:1px solid #e6e9ef}
+    .new-class button{flex:0 0 auto;padding:10px 14px;border-radius:12px;border:0;background:linear-gradient(135deg,var(--accent),#ff8bd1);color:#fff;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(107,70,255,0.12)}
+
+    /* Collapse toggle sits inline in the sidebar header (avoid fixed overlap) */
+    #collapseBtn{position:static;display:inline-flex;align-items:center;justify-content:center;width:auto;height:auto;padding:8px;border-radius:8px;background:transparent;border:0;color:var(--muted);font-size:18px}
+    #collapseBtn[aria-expanded='true']{background:linear-gradient(135deg,#fff,#fff);color:var(--muted);border:1px solid #eee}
+
+    .small-btn{padding:8px 10px;border-radius:10px;border:0;color:#fff;font-weight:800;cursor:pointer;transition:all 0.15s ease;box-shadow:0 6px 18px rgba(20,30,80,0.06);background:linear-gradient(135deg,#7dd7ff,#5bbfff)}
+    .small-btn:hover{ transform: translateY(-3px); box-shadow: 0 12px 24px rgba(20,30,80,0.12) }
+
+    /* Sign out button: subtle, readable, and aligned with topbar */
+    .signout-btn{background:transparent;border:1px solid rgba(11,18,32,0.06);padding:8px 12px;border-radius:12px;color:#0b1220;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;box-shadow:none;transition:transform .12s ease,box-shadow .12s ease,background .12s ease}
+    .signout-btn .icon{font-size:15px;line-height:1}
+    .signout-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(20,30,80,0.06);background:linear-gradient(180deg,rgba(255,255,255,0.98),rgba(250,250,250,0.98))}
+    .signout-btn:active{transform:translateY(0)}
+
+    .sidebar-footer{margin-top:auto;color:var(--muted);font-size:13px}
+    .toggle-btn{background:transparent;border:0;padding:8px;border-radius:8px;cursor:pointer;color:var(--muted)}
+    #mobileMenuBtn{display:none;background:transparent;border:0;color:var(--muted);font-size:20px;z-index:60}
+
+    /* Main area */
+    .main{flex:1;padding:28px;box-sizing:border-box;min-width:0;overflow:auto;margin-left:340px;transition:margin-left .28s ease}
+
+    /* When sidebar is collapsed show a compact margin (small icons) */
+    .sidebar.collapsed{width:84px;padding:12px;transform:none}
+    .sidebar.collapsed + .main{margin-left:84px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;z-index:60;position:relative}
+    .page-title{font-size:20px;font-weight:800}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .card{background:var(--card);border-radius:14px;padding:22px;box-shadow:0 10px 30px rgba(20,30,80,0.04);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
+    .card h3{margin:0;font-size:18px}
+    .card p{margin:0;color:var(--muted)}
+    .action-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 20px;border-radius:12px;border:0;background:linear-gradient(135deg,var(--accent),#ff8bd1);color:#fff;font-weight:800;cursor:pointer;box-shadow:0 10px 30px rgba(107,70,255,0.12)}
+
+    /* Details area */
+    .details{margin-top:18px;background:linear-gradient(180deg,#fff,#fcfdff);border-radius:14px;padding:22px;border:1px solid #eef2f8;box-shadow:0 10px 30px rgba(20,30,80,0.04)}
+    .details h2{margin:0 0 6px 0}
+    .details .counts{color:var(--muted);margin-bottom:12px}
+
+    /* Modal (modernized) */
+    .modal-backdrop{position:fixed;inset:0;background:linear-gradient(180deg, rgba(6,8,16,0.18), rgba(6,8,16,0.36));display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
+    .modal{background:var(--card);padding:20px;border-radius:14px;max-width:820px;width:100%;box-shadow:0 24px 70px rgba(10,12,30,0.24);position:relative;max-height:86vh;overflow:auto;border:1px solid rgba(11,18,32,0.04);font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto}
+    /* Hide standalone close buttons unless they live inside a .modal to avoid stray Xs */
+    .modal-close-x{display:none}
+    /* Compact, consistent close button inside modals */
+    .modal .modal-close-x{position:absolute;right:12px;top:12px;width:36px;height:36px;border-radius:8px;border:0;background:rgba(0,0,0,0.04);color:#333;cursor:pointer;font-weight:800;font-size:16px;display:inline-flex;align-items:center;justify-content:center;z-index:9999}
+    .modal .modal-close-x:hover{background:rgba(0,0,0,0.06)}
+    .modal.modal-closing{opacity:0;transform:translateY(-8px);transition:opacity .18s ease, transform .18s ease}
+    .modal-backdrop.backdrop-fade-out{opacity:0;transition:opacity .18s ease}
+    .modal h3{margin-top:0;margin-bottom:6px}
+    /* Add / Students tab navigation inside modals */
+    .ae-tabs{display:flex;gap:28px;align-items:center;border-bottom:1px solid #f0eef8;padding-bottom:12px;margin-top:6px}
+    .ae-tab{background:transparent;border:0;padding:8px 6px;border-radius:6px;font-weight:800;cursor:pointer;color:#222;font-size:16px;letter-spacing:0.2px}
+    .ae-tab[aria-selected='true']{color:var(--accent);}
+    .ae-tab[aria-selected='true']::after{content:'';display:block;height:4px;background:linear-gradient(90deg,var(--accent),#b86bff);border-radius:6px;margin-top:8px}
+    /* removed oversized circular close style to avoid overlapping action buttons */
+    /* header main removed; tabs show section */
+    .ae-header-main{display:none}
+    .modal input, .modal select, .modal textarea{padding:10px;border-radius:10px;border:1px solid #eef2f8;background:linear-gradient(180deg,#fff,#fbfdff)}
+    .modal .actions .small-btn, .modal .actions .action-btn{border-radius:10px;padding:10px 12px}
+    /* Create-class modal tweaks: rounded inputs and purple Create button */
+    .modal input#createClassName, .modal select#createClassGrade { padding:12px;border-radius:12px;border:2px solid #ece7fb;font-size:16px;outline:none;transition:box-shadow .18s ease,border-color .18s ease }
+    .modal input#createClassName:focus, .modal select#createClassGrade:focus { border-color:#6b46ff; box-shadow:0 12px 30px rgba(107,70,255,0.10) }
+    #classPreview{position:relative}
+    #classPreview::after{ content:''; position:absolute; right:8px; bottom:8px; width:0;height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:8px solid rgba(0,0,0,0.06); border-radius:2px }
+    /* Confirm Create button styled as a purple pill */
+    #confirmCreate.action-btn, .modal .action-btn#confirmCreate { border-radius:28px;padding:12px 22px;background:linear-gradient(135deg,#7b46ff,#b86bff);box-shadow:0 12px 32px rgba(123,70,255,0.14);border:0 }
+    .modal .btn-muted{background:transparent;border:0;color:#6b46ff;font-weight:700}
+    /* Fairy Door design tokens from main app */
+    :root{--fd-bg1:#fff6ff;--fd-bg2:#f0f8ff;--fd-accent:#ff5cb8}
+    body{background:linear-gradient(180deg,var(--fd-bg2),var(--fd-bg1));}
+    /* child-card (matching main design) */
+    .child-card{background:var(--card);border-radius:16px;padding:12px;text-align:center;box-shadow:0 8px 28px rgba(30,40,80,0.06);position:relative;overflow:visible;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:12px}
+    /* child list grid to match main app responsiveness */
+    .child-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;padding:14px}
+    .door-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:100%;max-width:402px;aspect-ratio:200/300;margin:6px auto;overflow:visible}
+    .door-avatar{position:absolute;left:50%;top:8%;transform:translateX(-50%);width:clamp(72px,12vw,156px);height:clamp(72px,12vw,156px);border-radius:12px;object-fit:cover;box-shadow:0 10px 28px rgba(0,0,0,0.12);border:8px solid rgba(255,255,255,0.98);background:#fff;z-index:5}
+    .door-overlay{position:absolute;inset:0;pointer-events:none;z-index:6}
+    .door-overlay > *{pointer-events:auto}
+    .door-name{position:absolute;font-weight:900;font-size:clamp(18px,2.2vw,22px);font-family:'Fredoka One','Poppins',system-ui;background:transparent;padding:0;margin:0;white-space:nowrap;z-index:10;left:50%;transform:translateX(-50%);top:0;text-shadow:2px 6px 10px rgba(0,0,0,0.25)}
+    .door-name.name-tag{background:rgba(255,255,255,0.94);padding:6px 10px;border-radius:10px;color:#0b1220;box-shadow:0 8px 20px rgba(10,20,40,0.08);display:inline-block;white-space:nowrap}
+    .door-avatar{position:absolute;left:50%;top:6%;transform:translateX(-50%);width:clamp(72px,12vw,156px);height:clamp(72px,12vw,156px);border-radius:12px;object-fit:cover;box-shadow:0 10px 28px rgba(0,0,0,0.12);border:8px solid rgba(255,255,255,0.98);background:#fff;z-index:5}
+
+    /* mailbox positioned near bottom of door image; points badge centered over mailbox */
+     /* Avoid `transition: all` — that can animate layout changes across
+       many mailbox elements when one updates. Scope transitions to purely
+       visual properties to prevent unintended animations on other cards. */
+    .mailbox{position:absolute;right:16px;bottom:14px;width:90px;height:54px;border-radius:9px;background:#ffd9ec;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,0.12);transition:background-color 0.18s ease, box-shadow 0.18s ease;overflow:visible;z-index:15}
+    .mail-slot{width:46%;height:44%;border-radius:6px;background:rgba(255,255,255,0.92);box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center}
+    .mailbox-points{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:12px;font-weight:900;color:var(--fd-accent);background:#fff;padding:8px 10px;border-radius:9px;box-shadow:0 6px 14px rgba(0,0,0,0.12);white-space:nowrap;z-index:101}
+     /* popup shown above a mailbox when awarding points; animated via CSS
+       so the visual is isolated to this popup only (no global layout
+       transitions). */
+     .mailbox-pop{position:absolute;left:50%;transform:translateX(-50%) translateY(12px) scale(.98);top:-92px;pointer-events:none;min-width:180px;text-align:center;border-radius:14px;background:linear-gradient(180deg,#fff6fb,#ffe6f6);box-shadow:0 18px 36px rgba(20,30,80,0.14);z-index:1200;opacity:0;display:flex;flex-direction:column;align-items:center;padding:14px 18px;transition:transform .28s cubic-bezier(.2,.85,.2,1),opacity .22s}
+     .mailbox-pop.show{transform:translateX(-50%) translateY(0) scale(1);opacity:1}
+     .mailbox-pop-emoji{font-size:44px;line-height:1;margin-bottom:8px}
+     .mailbox-pop-txt{font-weight:900;font-size:18px;letter-spacing:0.6px}
+     .mailbox-pop.positive .mailbox-pop-txt{color:#ff5cb8}
+     .mailbox-pop.negative .mailbox-pop-txt{color:#e63946}
+    /* remove door-img transform animation to avoid jumpy behavior during reflows */
+    .door-img{width:100%;height:100%;aspect-ratio:200/300;border-radius:14px;background-size:cover;background-position:center;cursor:pointer;transform-origin:center;transition:none;box-shadow:0 14px 36px rgba(0,0,0,0.1), inset 0 2px 0 rgba(255,255,255,0.6);display:block}
+    .reward-btn{background:linear-gradient(135deg,#ff6ba6 0%,#ff9be6 100%);display:inline-block;padding:12px 18px;font-size:14px;font-weight:900;border-radius:12px;border:3px solid #ff5cb8;color:#fff;cursor:pointer;margin-top:8px;box-shadow:0 6px 16px rgba(255,92,184,0.28)}
+    .modal[role="dialog"]{outline:0}
+    /* student card polish */
+    .student-card{width:160px;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 10px 24px rgba(20,30,80,0.04);display:flex;flex-direction:column;align-items:center}
+    .student-card img{width:72px;height:72px;border-radius:12px;object-fit:cover}
+    .student-card .name{font-weight:800;margin-top:8px}
+    .student-card .pts{color:#6b6b6b;margin-top:6px}
+    .form-row{display:flex;gap:10px;margin-bottom:10px}
+    input,select,textarea{padding:10px;border-radius:8px;border:1px solid #e6e9ef;width:100%;box-sizing:border-box}
+    .modal .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+    .btn-muted{background:#eee;border:0;padding:10px;border-radius:8px;cursor:pointer}
+
+    /* Toast notifications */
+    .toast-container{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:1400;pointer-events:none}
+    .toast{pointer-events:auto;padding:10px 14px;border-radius:10px;min-width:160px;max-width:360px;color:#fff;font-weight:700;box-shadow:0 12px 30px rgba(10,12,30,0.18);opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease}
+    .toast.show{opacity:1;transform:none}
+    .toast.default{background:linear-gradient(135deg,#333,#222)}
+    .toast.success{background:linear-gradient(135deg,#2ecc71,#27ae60)}
+    .toast.warning{background:linear-gradient(135deg,#ffb86b,#ff7a4d)}
+    .toast.error{background:linear-gradient(135deg,#ff6b6b,#ff3b3b)}
+    /* Inline field error + shake animation for modals */
+    .inline-error{color:#b33;font-size:13px;margin-top:8px;font-weight:700}
+    @keyframes fd-shake{0%{transform:translateX(0)}25%{transform:translateX(-8px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}100%{transform:translateX(0)}}
+    .shake{animation:fd-shake 360ms ease-in-out}
+
+    @media (max-width:960px){
+      /* On small screens collapse by default and allow overlay open */
+      .sidebar{transform:translateX(-100%);width:86%;max-width:420px}
+      .sidebar.open{transform:translateX(0)}
+      .sidebar + .main{margin-left:0}
+      /* Show mobile menu button in topbar */
+      #mobileMenuBtn{display:inline-flex}
+      /* Hide the inline collapse button in the sidebar header on small screens
+         to avoid showing two hamburger icons (sidebar + topbar) */
+      #collapseBtn{display:none}
+      /* Ensure topbar controls remain visible on mobile */
+      .topbar{z-index:70}
+      .topbar .signout-btn{display:inline-flex}
+    }
+
+    /* Topbar responsiveness for narrow screens */
+    @media (max-width:960px){
+      .topbar{flex-wrap:wrap;gap:6px;padding:6px 0}
+      #topbarActions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;width:100%;order:2}
+      .topbar > div:first-child{flex-basis:100%;order:1;min-width:0}
+      #currentMeta{max-width:100%;white-space:normal;overflow:visible}
+      .topbar .action-btn{padding:10px 12px;font-size:14px}
+      .topbar .small-btn{padding:10px 12px;font-size:14px}
+      #accountMenu{order:3;width:100%;display:flex;justify-content:flex-end}
+    }
+
+    @media (max-width:560px){
+      /* Reduce main padding so content uses top area */
+      .main{padding:10px 12px;margin-left:0}
+      .topbar{padding:6px 6px;margin-bottom:6px}
+      /* Reduce welcome card sizes so class content sits higher when shown */
+      #welcome{margin-top:6px}
+      .card{padding:12px}
+      /* ensure classArea sits near top when opened */
+      #classArea{margin-top:6px}
+    }
+
+    /* Reports modal: make controls stack on narrow screens and allow select to expand to full width */
+    @media (max-width:560px){
+      /* stack the select and buttons vertically for narrow devices */
+      .modal .modal-close-x{right:8px;top:8px}
+      .modal .modal-close-x{z-index:9999}
+      .modal div[style*='display:flex'][style*='align-items:center']{flex-direction:column;align-items:stretch;gap:10px}
+      #repStu{width:100% !important;flex:1 1 auto}
+      #gen{width:100%;box-sizing:border-box}
+      #downloadPdf{width:100%;box-sizing:border-box;margin-left:0}
+      /* Mobile layout improvements */
+      .sidebar{transform:translateX(-100%);position:fixed;left:0;top:0;height:100vh;width:86%;max-width:420px;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:0 30px 80px rgba(0,0,0,0.18);z-index:1200;transition:transform .28s ease}
+      .sidebar.open{transform:translateX(0)}
+      .main{margin-left:0;padding:16px}
+      /* two doors per row on narrow phones */
+      .child-list{grid-template-columns:repeat(2,minmax(120px,1fr));gap:10px;padding:8px}
+      .child-card,.student-card,.card{width:100%;max-width:100%}
+      /* reduce door/avatar sizes so two doors fit comfortably */
+      .door-wrap{max-width:100%;aspect-ratio:160/220;margin:4px auto}
+      .door-avatar{width:clamp(56px,18vw,92px);height:clamp(56px,18vw,92px)}
+      .topbar{flex-direction:column;align-items:stretch;gap:8px}
+      #topbarActions{width:100%;display:flex;flex-direction:column;gap:8px}
+      .action-btn,.small-btn,.signout-btn{width:100%;box-sizing:border-box}
+      .modal{width:95vw;max-width:95vw;padding:16px}
+      .report-controls{flex-direction:column;align-items:stretch}
+      #repStu,#repFrom,#repTo,#gen,#downloadPdf{width:100%;flex:1 1 auto}
+      input,select,textarea{font-size:16px}
+      .mailbox{right:10px;bottom:12px;width:72px;height:44px}
+      /* hide large sidebar action pills on mobile to avoid huge stacked buttons */
+      .side-actions .action-btn, .side-actions .small-btn{display:none}
+      /* ensure mobile menu button sits inline in topbar and is easy to tap */
+      #mobileMenuBtn{display:inline-flex !important;padding:10px 12px;font-size:20px;border-radius:8px;background:rgba(255,255,255,0.9);box-shadow:0 6px 18px rgba(10,12,30,0.06);align-items:center}
+      /* compact class actions when moved into topbar */
+      #topbarActions .action-btn{padding:8px 10px;font-size:14px;border-radius:8px}
+      #topbarActions .small-btn{padding:8px 10px;font-size:14px;border-radius:8px}
+    }
+
+      /* When topbar is moved into the .app container, pin it to the app top so it truly sits at the very top */
+      .topbar.moved-to-app{position:absolute;top:0;left:0;right:0;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(250,250,250,0.95));backdrop-filter:blur(6px);box-shadow:0 8px 30px rgba(10,12,30,0.08);padding:8px 12px;z-index:1700}
+      /* ensure main content sits below the moved topbar */
+      .main{padding-top:88px}
+
+      /* App topline (currentMeta, counts, account) pinned at viewport top */
+      .app-topline{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;gap:12px;background:linear-gradient(180deg,rgba(255,255,255,0.98),rgba(250,250,250,0.98));box-shadow:0 8px 30px rgba(10,12,30,0.06);z-index:1800}
+      .app-topline #currentMeta{max-width:48ch}
+      @media (max-width:560px){ .app-topline{padding:8px 12px} .app-topline .counts{display:none} }
+      /* Reserve vertical space so main content is not covered by the fixed topline */
+      .main{padding-top:calc(88px + 64px);} 
+      /* Compact class actions pinned to top of main: horizontal, small buttons */
+      .main > #classActionsBar{display:flex !important;gap:8px;align-items:center;justify-content:flex-start;position:sticky;top:12px;z-index:1200;padding:6px 6px;margin-bottom:8px}
+      .main > #classActionsBar .action-btn{padding:8px 10px;font-size:13px;border-radius:10px}
+      .main > #classActionsBar .small-btn{padding:6px 8px;font-size:13px;border-radius:10px}
+      /* compact variant when space is tight */
+      #classActionsBar.compact-actions{gap:6px}
+      /* layout: actions + meta on the left, account on the right */
+      .topbar{display:flex;align-items:center;justify-content:space-between}
+      .topbar > div:first-child{flex:1;min-width:0}
+      #topbarActions{display:flex;gap:8px;align-items:center;flex-direction:row;overflow:auto}
+      #topbarActions .action-btn{padding:6px 8px;font-size:13px;border-radius:10px;min-width:40px}
+      #topbarActions .small-btn{padding:6px 8px;font-size:13px;border-radius:10px;min-width:36px}
+      /* compact class name meta to a single line */
+      #currentMeta{display:inline-block;padding:6px 8px;border-radius:10px;font-size:15px}
+      /* mobile menu button when moved into main (top-left of main area) */
+      .mobile-menu-main{position:absolute;left:10px;top:10px;z-index:1620;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.95);box-shadow:0 8px 20px rgba(0,0,0,0.08);font-size:18px}
+
+    /* Lightweight students summary (avoid heavy card visuals) */
+    /* students-summary removed */
+
+    /* mobileActions removed */
+
+  
+
+body{font-family:system-ui;padding:28px;color:#111;background:#fff}.card{max-width:900px;margin:0 auto}h1{font-size:22px;margin:0 0 6px 0}.meta{color:#666;font-size:13px;margin-bottom:12px}.insights{margin-top:18px;font-size:15px;color:#333;line-height:1.5}img.chart{width:100%;border-radius:8px;box-shadow:0 18px 44px rgba(0,0,0,0.10)}@media print{ body{padding:12mm} .card{max-width:100%} }

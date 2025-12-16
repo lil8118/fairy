@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Teacher — Classes</title>
+  
+
+  
+  <link rel="stylesheet" href="teachers.css" />
+</head>
+<body>
+  <!-- Supabase session gate: ensure user is logged in before viewing teacher portal -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+  
+  <div class="app">
+    <aside id="sidebar" class="sidebar" style="overflow:auto;height:100vh;box-sizing:border-box;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <div class="brand"><div class="logo">TD</div><div class="brand-text">Teacher</div></div>
+        <div>
+          <button id="collapseBtn" class="toggle-btn" title="Toggle panel">☰</button>
+        </div>
+      </div>
+
+      <div class="side-actions">
+        <div style="font-size:14px;color:var(--muted);font-weight:700">Your Classes</div>
+        <div id="classList" class="class-list" role="list"></div>
+      </div>
+
+      <div class="new-class">
+        <button id="openCreateClassBtn" class="action-btn" style="width:100%"><span class="btn-icon">＋</span><span class="btn-label">Add New class</span></button>
+      </div>
+
+      <div class="sidebar-footer">Tip: Click a class to open its page</div>
+    </aside>
+
+    <main class="main">
+      
+
+      <section id="welcome" class="grid">
+        <div class="card">
+          <h3>Welcome</h3>
+          <p>Select a class from the left to view or manage it.</p>
+        </div>
+        <div class="card">
+          <h3>Create a class</h3>
+          <p>Use the left panel to add a new class quickly.</p>
+        </div>
+        <div class="card">
+          <h3>Modern UI</h3>
+          <p>Large central actions will appear when a class is open.</p>
+        </div>
+      </section>
+
+      <section id="classArea" style="display:none">
+        <!-- details moved to topbar for compact layout; keep action buttons visible below when class opens -->
+        <div id="classActionsBar" style="display:none;gap:16px;flex-wrap:wrap;align-items:center;margin-top:8px">
+          <button id="btnAddStudent" class="action-btn">➕ Add / Edit students</button>
+          <button id="btnAddTasks" class="action-btn" style="background:linear-gradient(135deg,#7dd7ff,#5bbfff);color:#00334a">🛠 Add Tasks</button>
+          <button id="btnReports" class="action-btn" style="background:linear-gradient(135deg,#88dd88,#66cc66);">📊 Generate Reports</button>
+          <button id="btnRemoveClass" class="small-btn" style="background:linear-gradient(135deg,#ff6b6b,#ff4b4b);color:#fff">🗑 Remove Class</button>
+          <div id="optionsWrap" style="position:relative">
+            <button id="optionsToggleBtn" class="small-btn" aria-expanded="false" title="Options">Options</button>
+            <div id="optionsMenu" style="position:absolute;right:0;top:40px;min-width:160px;background:#fff;border-radius:10px;box-shadow:0 12px 36px rgba(20,30,80,0.08);padding:8px;display:none;z-index:60">
+              <button id="archiveClassBtn" class="small-btn" style="width:100%;margin-bottom:8px;background:linear-gradient(135deg,#ffb86b,#ff9a44);color:#3a1f00">Archive</button>
+              <button id="deleteClassBtn" class="small-btn" style="width:100%;background:linear-gradient(135deg,#ff6b6b,#ff4b4b);">Delete</button>
+            </div>
+          </div>
+        </div>
+
+          <!-- Single child list lives here (hidden until a class is opened) -->
+          <div id="childList" class="child-list" style="margin-top:18px;display:none"></div>
+      </section>
+
+      <!-- Move topbar here (under #classArea) as requested -->
+      <div class="topbar" style="position:relative;display:flex;align-items:center;gap:12px;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
+          <button id="mobileMenuBtn" aria-label="Open menu" title="Menu" style="display:none;border:0;background:transparent;font-size:20px;padding:6px;">☰</button>
+          <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+            <div id="currentMeta" style="color:#3b1f7a;font-weight:800;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:rgba(123,76,255,0.08);padding:6px 10px;border-radius:8px;display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:56ch">Class Name</div>
+            <div class="counts" id="classCounts" style="color:var(--muted);font-size:13px">0 students · 0 tasks</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <div id="topbarActions" style="display:none;gap:12px;align-items:center;margin-right:6px"></div>
+          <div id="accountMenu" style="position:relative">
+            <button id="accountBtn" class="small-btn" aria-haspopup="true" aria-expanded="false" style="display:flex;align-items:center;gap:8px;padding:6px;border-radius:999px">
+              <img id="accountAvatar" src="" alt="Account" style="width:28px;height:28px;border-radius:999px;object-fit:cover;background:#fff"/>
+              <span style="font-weight:800">▾</span>
+            </button>
+            <div id="accountDropdown" style="position:absolute;right:0;top:42px;display:none;min-width:220px;background:#fff;border-radius:10px;box-shadow:0 12px 36px rgba(20,30,80,0.08);padding:8px;z-index:1400">
+              <div id="accountOverview" style="padding:8px">
+                <div id="acctName" style="font-weight:800"></div>
+                <div id="acctEmail" style="color:#666;font-size:13px"></div>
+              </div>
+              <div style="border-top:1px solid #f0f2f6;margin-top:8px;padding-top:8px;display:flex;flex-direction:column;gap:8px">
+                <button id="openAccountBtn" class="small-btn" style="width:100%">Account</button>
+                <button id="signOutBtn" class="small-btn" style="width:100%">Sign Out</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  
+
+  <!-- Diagnostic check-in removed. -->
+
+  
+  
+
+    <script src="teachers.js"></script>
+</body>
+  </html>

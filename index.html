@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lil fairy award — Celebrate classroom magic</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #f7fbff;
+      --bg2: #fff8ff;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent: #6b46ff;
+      --accent-2: #7dd7ff;
+      --accent-3: #ffd36b;
+      --glass: rgba(255,255,255,0.72);
+      --radius:18px;
+      --shadow-lg: 0 20px 60px rgba(15,20,40,0.12);
+      --shadow-md: 0 8px 28px rgba(15,20,40,0.08);
+      --maxw:1200px;
+    }
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;background:radial-gradient(1200px 600px at 10% 10%, rgba(123,76,255,0.06), transparent 20%), linear-gradient(180deg,var(--bg1),var(--bg2));color:#0b1220;-webkit-font-smoothing:antialiased}
+    .wrap{max-width:var(--maxw);margin:32px auto;padding:36px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:6px;position:relative}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+    .hamburger{display:none;width:44px;height:44px;border-radius:10px;border:0;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:var(--shadow-md);align-items:center;justify-content:center;cursor:pointer;color:var(--accent)}
+    /* keep mini-menu hidden by default; it is shown only on small screens */
+    .mini-menu{display:none}
+    .brand-text{font-weight:800;font-size:18px;color:#2b2246;font-family:'Poppins', Inter, system-ui, -apple-system, 'Segoe UI', Roboto}
+    nav{display:flex;gap:12px;align-items:center}
+    .nav-link{color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:600}
+    .nav-link:hover{color:var(--accent)}
+    .nav-cta{background:linear-gradient(135deg,var(--accent),#b86bff);color:#fff;padding:10px 14px;border-radius:12px;text-decoration:none;font-weight:800;box-shadow:var(--shadow-md)}
+    .nav-btn{background:transparent;border:1px solid rgba(11,18,32,0.06);padding:8px 12px;border-radius:10px;cursor:pointer;color:var(--muted)}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 480px;gap:32px;align-items:center;margin-top:10px}
+    .hero-left{max-width:720px}
+    .hero h1{font-size:44px;line-height:1.02;margin:0 0 14px 0;color:#22143a;font-weight:900;font-family:'Poppins', Inter, system-ui, -apple-system, 'Segoe UI', Roboto}
+    .lead{color:var(--muted);font-size:18px;margin-bottom:20px}
+    .cta-row{display:flex;gap:14px;align-items:center}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#b86bff);color:#fff;padding:14px 20px;border-radius:14px;border:0;font-weight:900;cursor:pointer;box-shadow:var(--shadow-lg)}
+    .btn-ghost{background:transparent;border:2px solid rgba(11,18,32,0.06);padding:12px 16px;border-radius:12px;cursor:pointer;color:var(--muted);font-weight:700}
+
+    .hero-right{position:relative;display:flex;align-items:center;justify-content:center}
+    .hero-illustration{width:100%;max-width:460px;height:auto;border-radius:20px;background:linear-gradient(180deg,rgba(123,76,255,0.06),rgba(125,215,255,0.03));box-shadow:var(--shadow-lg);padding:18px;display:flex;align-items:center;justify-content:center}
+
+    /* Entrance reveal animations for hero */
+    .reveal{opacity:0;transform:translateY(10px) scale(0.998);animation:reveal 700ms cubic-bezier(.16,.8,.24,1) both}
+    .reveal.delay-1{animation-delay:120ms}
+    .reveal.delay-2{animation-delay:260ms}
+    .reveal.delay-3{animation-delay:420ms}
+    .reveal.delay-4{animation-delay:600ms}
+    @keyframes reveal{to{opacity:1;transform:translateY(0) scale(1)}}
+
+    /* Testimonials / trust logos */
+    .testimonials{margin-top:26px;display:grid;grid-template-columns:1fr;gap:14px}
+    .test-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+    .test-card{background:var(--card);border-radius:14px;padding:16px;box-shadow:var(--shadow-md);border:1px solid rgba(11,18,32,0.04)}
+    .test-card p{margin:6px 0;color:var(--muted);font-size:14px}
+    .trust-logos{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
+    .trust-logos img{height:28px;opacity:0.9;filter:grayscale(0.12) contrast(0.95)}
+
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:28px}
+    .feature{padding:18px;border-radius:14px;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:var(--shadow-md);border:1px solid rgba(120,110,255,0.04)}
+    .feature h4{margin:6px 0 8px 0;font-size:15px}
+    .feature p{margin:0;color:var(--muted);font-size:14px}
+
+    footer{margin-top:46px;color:var(--muted);font-size:14px;padding:18px 0;text-align:center}
+
+    /* responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr 360px}
+      .wrap{padding:20px}
+    }
+    @media (max-width:720px){
+      header{align-items:flex-start}
+      /* show a small top-right hamburger that opens a compact dropdown menu */
+      .hamburger{display:inline-flex;position:absolute;right:12px;top:12px;width:44px;height:44px}
+      nav{display:none}
+      .mini-menu{position:absolute;right:12px;top:58px;width:220px;background:linear-gradient(180deg, rgba(123,76,255,0.06), rgba(255,255,255,0.96));backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px;box-shadow:0 14px 48px rgba(20,18,40,0.14);border:1px solid rgba(11,18,32,0.06);display:none;flex-direction:column;gap:8px;z-index:1600}
+      .mini-menu.open{display:flex;animation:menuIn 220ms cubic-bezier(.2,.9,.2,1)}
+      .mini-menu a{padding:8px 10px;border-radius:10px;color:#22143a;text-decoration:none;font-weight:700}
+      .mini-menu a:hover{background:linear-gradient(90deg,rgba(107,70,255,0.06),rgba(125,215,255,0.03));color:var(--accent)}
+      .mini-menu .mini-actions{display:flex;flex-direction:column;gap:8px}
+      .mini-menu .mini-actions .nav-cta{width:100%;padding:8px 10px;font-weight:800}
+      .mini-menu .mini-actions .nav-btn{width:100%;padding:8px 10px}
+      @keyframes menuIn{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+      .auth-backdrop{padding:12px}
+      .auth-modal{max-width:92%;padding:16px}
+      .test-cards{grid-template-columns:1fr}
+      .hero{grid-template-columns:1fr;}
+      .hero-right{order:-1;margin-bottom:18px}
+      .brand-text{font-size:16px}
+    }
+
+    @media (max-width:420px){
+      .logo{width:48px;height:48px}
+      .brand-text{font-size:15px}
+      /* hide the small tagline on very narrow screens to avoid wrapping */
+      .brand > div > div:nth-child(2){display:none}
+    }
+
+    /* ensure no mobile overlay/backdrop remains */
+    .mobile-backdrop{display:none !important}
+
+    /* subtle floating sparkles */
+    .spark{transform-origin:50% 50%;animation:float 4s ease-in-out infinite}
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+
+    /* Auth modal styles */
+    .auth-backdrop{position:fixed;inset:0;background:linear-gradient(180deg, rgba(6,8,16,0.30), rgba(6,8,16,0.46));display:none;align-items:center;justify-content:center;z-index:1400;padding:20px}
+    .auth-modal{background:var(--card);padding:22px;border-radius:14px;max-width:560px;width:100%;box-shadow:0 24px 80px rgba(10,12,30,0.22);position:relative;border:1px solid rgba(11,18,32,0.04);font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto}
+    .auth-modal h3{margin-top:0;margin-bottom:6px;font-size:20px}
+    .auth-modal p.sub{margin:0 0 12px 0;color:var(--muted);font-size:14px}
+    .auth-row{display:flex;gap:10px;margin-bottom:12px}
+    .auth-row input, .auth-row select{flex:1;padding:12px;border-radius:12px;border:1px solid #eef2f8;background:linear-gradient(180deg,#fff,#fbfdff);box-shadow:inset 0 1px 0 rgba(255,255,255,0.6)}
+    .auth-row input:focus, .auth-row select:focus{outline:none;border-color:var(--accent);box-shadow:0 8px 20px rgba(107,70,255,0.06)}
+    .auth-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+    .auth-actions .nav-btn{background:transparent;border:1px solid rgba(11,18,32,0.06);padding:10px 14px;border-radius:10px;color:var(--muted)}
+    .auth-actions .nav-cta{background:linear-gradient(135deg,var(--accent),#9aa8ff);color:#fff;padding:10px 14px;border-radius:10px;border:0;font-weight:700}
+    .auth-close-x{position:absolute;right:12px;top:12px;width:36px;height:36px;border-radius:8px;border:0;background:transparent;color:#556;cursor:pointer;font-weight:800;font-size:18px;display:inline-flex;align-items:center;justify-content:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button id="mobileNavBtn" class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="miniMenu" style="display:none">
+          <svg width="18" height="14" viewBox="0 0 18 14" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true"><rect width="18" height="2" rx="1" fill="currentColor"/><rect y="6" width="18" height="2" rx="1" fill="currentColor"/><rect y="12" width="18" height="2" rx="1" fill="currentColor"/></svg>
+        </button>
+        <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- Inline SVG mark: stylized fairy badge -->
+          <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lil fairy logo">
+            <defs>
+              <linearGradient id="lgMark" x1="0" x2="1">
+                <stop offset="0" stop-color="#9b6bff" />
+                <stop offset="1" stop-color="#7dd7ff" />
+              </linearGradient>
+              <filter id="f" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#6b46ff" flood-opacity="0.12" />
+              </filter>
+            </defs>
+            <g filter="url(#f)">
+              <circle cx="32" cy="32" r="28" fill="url(#lgMark)" />
+            </g>
+            <g transform="translate(12,12)">
+              <path d="M8 18c4-6 18-6 20 0" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+              <g transform="translate(20,6) rotate(-18)">
+                <ellipse rx="6" ry="10" fill="#fff" opacity="0.92"/>
+              </g>
+              <g transform="translate(6,6) rotate(18)">
+                <ellipse rx="4" ry="8" fill="#fff" opacity="0.9"/>
+              </g>
+              <circle cx="8" cy="10" r="2" fill="#fff"/>
+            </g>
+            <g>
+              <circle cx="50" cy="14" r="3" fill="#ffd36b" opacity="0.95"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-text">Lil fairy award</div>
+          <div style="font-size:12px;color:var(--muted)">Celebrate learning with magic</div>
+        </div>
+        </div>
+      </div>
+      <nav id="mainNav">
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#how">How it works</a>
+        <a class="nav-link" href="#about">About</a>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button id="openSignup" class="nav-cta" style="background:linear-gradient(135deg,#7b46ff,#b86bff);border:0">Sign Up</button>
+          <button id="openLogin" class="nav-btn" style="border:1px solid rgba(11,18,32,0.06);">Log In</button>
+        </div>
+      </nav>
+      <div id="miniMenu" class="mini-menu" aria-hidden="true">
+        <a class="mini-link" href="#features">Features</a>
+        <a class="mini-link" href="#how">How it works</a>
+        <a class="mini-link" href="#about">About</a>
+        <div class="mini-actions">
+          <button id="miniSignup" class="nav-cta" style="background:linear-gradient(135deg,#7b46ff,#b86bff);border:0">Sign Up</button>
+          <button id="miniLogin" class="nav-btn" style="border:1px solid rgba(11,18,32,0.06);">Log In</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-left">
+        <h1 class="reveal delay-1">Celebrate learning — tiny wins, big smiles.</h1>
+        <div class="lead reveal delay-2">Lil Fairy helps teachers reward progress with colorful badges, playful celebrations, and printable reports — designed for joyful classrooms.</div>
+        <div class="cta-row">
+          <button id="btnGetStarted" type="button" class="btn-primary reveal delay-3" onclick="(function(ev){ try{ ev.stopImmediatePropagation(); ev.preventDefault(); const sb=document.getElementById('signupBackdrop'); if(sb){ sb.style.display='flex'; sb.querySelector('input')?.focus(); } }catch(e){console.warn(e);} })(event)">Get Started — it's free</button>
+          <button class="btn-ghost" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Explore features</button>
+        </div>
+
+        <div style="margin-top:22px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <div class="feature" style="display:flex;gap:12px;align-items:center;min-width:220px">
+            <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#ffdede,#fff6e6);display:flex;align-items:center;justify-content:center;font-weight:800">🏅</div>
+            <div>
+              <div style="font-weight:800">For teachers</div>
+              <div style="color:var(--muted);font-size:13px">Quick setup, class management, and reports</div>
+            </div>
+          </div>
+
+          <div class="feature" style="display:flex;gap:12px;align-items:center;min-width:220px">
+            <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#e6f8ff,#eaf8ff);display:flex;align-items:center;justify-content:center;font-weight:800">✨</div>
+            <div>
+              <div style="font-weight:800">For students</div>
+              <div style="color:var(--muted);font-size:13px">Playful animations and stickers that encourage growth</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-illustration reveal delay-4" aria-hidden="true">
+          <!-- Decorative fairy scene: stylized vector -->
+          <svg width="420" height="340" viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lil fairy illustration">
+            <defs>
+              <linearGradient id="lg1" x1="0" x2="1"><stop offset="0" stop-color="#fff1fb"/><stop offset="1" stop-color="#eef8ff"/></linearGradient>
+              <radialGradient id="rg1" cx="30%" cy="20%" r="60%"><stop offset="0" stop-color="#fff7f0"/><stop offset="1" stop-color="transparent"/></radialGradient>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" rx="16" fill="url(#lg1)" />
+            <g transform="translate(30,12)">
+              <g transform="translate(60,100)">
+                <ellipse rx="92" ry="46" fill="#ffefe6" opacity="0.9" transform="translate(-70,-18) rotate(-18)"/>
+                <ellipse rx="92" ry="46" fill="#e6f8ff" opacity="0.9" transform="translate(70,-18) rotate(18)"/>
+              </g>
+              <g transform="translate(220,150)">
+                <ellipse rx="42" ry="56" fill="#ffd8e8"/>
+                <rect x="-18" y="28" width="36" height="72" rx="18" fill="#6b46ff" transform="rotate(-6)"/>
+                <g transform="translate(0,-50)">
+                  <circle r="32" fill="#fff0f6" stroke="#ffd6d6" stroke-width="1"/>
+                  <circle r="4" cx="-8" cy="-6" fill="#2d3142" />
+                  <circle r="4" cx="8" cy="-6" fill="#2d3142" />
+                </g>
+                <g transform="translate(44,-28) rotate(24)">
+                  <rect x="-4" y="-2" width="56" height="6" rx="3" fill="#6b46ff"/>
+                  <circle cx="56" cy="1" r="10" fill="#ffd36b"/>
+                </g>
+              </g>
+              <g transform="translate(56,230)">
+                <rect x="0" y="0" width="300" height="80" rx="12" fill="rgba(255,255,255,0.6)"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials" aria-label="Teacher testimonials">
+      <h3 style="margin:0 0 12px 0">What teachers say</h3>
+      <div class="test-cards">
+        <div class="test-card">
+          <div style="font-weight:800">"My students light up when they earn a badge — it's a game changer."</div>
+          <p>— Maria P., 2nd Grade Teacher</p>
+        </div>
+        <div class="test-card">
+          <div style="font-weight:800">"Setup was quick and the printable reports are beautiful for parent nights."</div>
+          <p>— Keisha R., Elementary Coordinator</p>
+        </div>
+        <div class="test-card">
+          <div style="font-weight:800">"The small celebrations made my classroom more joyful and focused."</div>
+          <p>— James L., 5th Grade</p>
+        </div>
+      </div>
+
+      <div class="trust-logos" aria-hidden="true">
+        <!-- Simple inline trust marks (SVG placeholders) -->
+        <svg width="84" height="28" viewBox="0 0 84 28" xmlns="http://www.w3.org/2000/svg"><rect rx="6" width="84" height="28" fill="#fff" stroke="#eee"/><text x="12" y="18" font-size="12" fill="#6b46ff" font-weight="700">Trusted by teachers</text></svg>
+        <svg width="84" height="28" viewBox="0 0 84 28" xmlns="http://www.w3.org/2000/svg"><rect rx="6" width="84" height="28" fill="#fff" stroke="#eee"/><text x="12" y="18" font-size="12" fill="#2563eb" font-weight="700">Used in schools</text></svg>
+        <svg width="84" height="28" viewBox="0 0 84 28" xmlns="http://www.w3.org/2000/svg"><rect rx="6" width="84" height="28" fill="#fff" stroke="#eee"/><text x="12" y="18" font-size="12" fill="#f59e0b" font-weight="700">Parent-approved</text></svg>
+      </div>
+    </section>
+
+    <section id="how" style="margin-top:28px">
+      <h3 style="margin:0 0 12px 0">How it works</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+        <div class="feature">
+          <div style="font-size:22px">1 — Create a class</div>
+          <h4>Set up in minutes</h4>
+          <p>Add students, pick badges, and organize groups — then invite co-teachers if needed.</p>
+        </div>
+        <div class="feature">
+          <div style="font-size:22px">2 — Award & celebrate</div>
+          <h4>Quick praise, big impact</h4>
+          <p>Tap to award a badge; students see playful animations and collect recognitions over time.</p>
+        </div>
+        <div class="feature">
+          <div style="font-size:22px">3 — Print & share</div>
+          <h4>Reports for parents</h4>
+          <p>Generate colorful printable summaries and export student progress for conferences.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" style="margin-top:26px">
+      <h3 style="margin:0 0 12px 0">Features</h3>
+      <div class="features">
+        <div class="feature">
+          <div style="font-size:22px">Classrooms & Badges</div>
+          <h4>Simple class setup</h4>
+          <p>Organize students, create tasks and award badges quickly from the teacher portal.</p>
+        </div>
+        <div class="feature">
+          <div style="font-size:22px">Playful rewards</div>
+          <h4>Stickers & celebrations</h4>
+          <p>Every award is a small celebration — animations and character reactions make wins feel special.</p>
+        </div>
+        <div class="feature">
+          <div style="font-size:22px">Reports & prints</div>
+          <h4>Printable summaries</h4>
+          <p>Download colorful reports for parents and classroom notes with one click.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <strong>Lil fairy award</strong> — made with care for teachers and learners.</div>
+      <div style="margin-top:8px;color:var(--muted)">Not affiliated with any other product — an original, friendly classroom rewards experience.</div>
+    </footer>
+  </div>
+
+  <!-- Auth modals -->
+  <div id="signupBackdrop" class="auth-backdrop">
+    <div class="auth-modal">
+      <button class="auth-close-x" aria-label="Close">✕</button>
+      <h3>Create a teacher account</h3>
+      <p class="sub">Create an account to access the Teacher Portal.</p>
+      <div class="auth-row"><input id="suName" placeholder="Full name" /></div>
+      <div class="auth-row"><input id="suEmail" placeholder="Email" type="email"/></div>
+      <div class="auth-row"><input id="suUsername" placeholder="Username"/></div>
+      <div class="auth-row"><input id="suPassword" placeholder="Password" type="password"/></div>
+      <div class="auth-row"><input id="suRepeat" placeholder="Repeat password" type="password"/></div>
+      <div class="auth-row"><select id="suGrade"><option value="">Select grade (optional)</option><option>Kindergarten</option><option>1st</option><option>2nd</option><option>3rd</option><option>4th</option><option>5th</option><option>6th</option><option>7th</option><option>8th</option><option>9th</option><option>10th</option><option>11th</option><option>12th</option></select></div>
+      <div class="auth-actions"><button id="suCancel" class="nav-btn">Cancel</button><button id="suSubmit" class="nav-cta">Sign up</button></div>
+    </div>
+  </div>
+
+  <div id="loginBackdrop" class="auth-backdrop">
+    <div class="auth-modal">
+      <button class="auth-close-x" aria-label="Close">✕</button>
+      <h3>Log in</h3>
+      <p class="sub">Log in with your email and password.</p>
+      <div class="auth-row"><input id="liEmail" placeholder="Email" type="email"/></div>
+      <div class="auth-row"><input id="liPassword" placeholder="Password" type="password"/></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><label style="font-size:13px;color:var(--muted)"><input id="liRemember" type="checkbox" style="margin-right:8px"/> Remember me on this device</label></div>
+      <div id="liError" style="color:#a33;margin-top:6px;min-height:18px"></div>
+      <div class="auth-actions"><button id="liCancel" class="nav-btn">Cancel</button><button id="liSubmit" class="nav-cta">Log in</button></div>
+    </div>
+  </div>
+
+  <style>
+    .lf-spinner{display:inline-block;width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,0.2);border-top-color:rgba(255,255,255,0.95);animation:spin .9s linear infinite;vertical-align:middle}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .lf-inline-error{color:#b91c1c;font-size:13px;margin-top:6px;min-height:18px}
+  </style>
+
+  <script>
+    // small progressive enhancements
+    document.querySelectorAll('.spark').forEach((el,i)=>{ el.style.transition='transform 400ms ease'; setInterval(()=>{ el.style.transform = `translateY(${(i%2? -6: -3)}px) rotate(${(i%2? -4:4)}deg)`; setTimeout(()=>el.style.transform='translateY(0) rotate(0deg)',1800); }, 2600 + i*200); });
+
+    // --- Supabase auth integration (replace placeholders with your project values) ---
+    // 1) Create a Supabase project and obtain SUPABASE_URL and SUPABASE_ANON_KEY
+    // 2) Replace the values below with your project's values
+    const SUPABASE_URL = 'https://cnjmvgkvbhlcruwuqubk.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNuam12Z2t2YmhsY3J1d3VxdWJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2NTQwNDUsImV4cCI6MjA4MTIzMDA0NX0.zkDZK7lhSoO38bxb-nQ-x9QVdeyk7RDDDqHPGyuYGyk';
+
+    // load supabase client and wire auth UI
+    (function(){
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js';
+      s.onload = ()=> initAuth();
+      document.head.appendChild(s);
+    })();
+
+    function initAuth(){
+      if(typeof supabase === 'undefined'){ console.warn('Supabase client failed to load'); return; }
+      window._lf_supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      const signupBackdrop = document.getElementById('signupBackdrop');
+      const loginBackdrop = document.getElementById('loginBackdrop');
+      document.getElementById('openSignup').addEventListener('click', ()=> { signupBackdrop.style.display='flex'; signupBackdrop.querySelector('input')?.focus(); });
+      document.getElementById('openLogin').addEventListener('click', ()=> { loginBackdrop.style.display='flex'; loginBackdrop.querySelector('input')?.focus(); });
+      document.getElementById('suCancel').addEventListener('click', ()=> signupBackdrop.style.display='none');
+      document.getElementById('liCancel').addEventListener('click', ()=> loginBackdrop.style.display='none');
+
+      // wire modal close X buttons
+      document.querySelectorAll('.auth-close-x').forEach(x => x.addEventListener('click', ()=> { x.closest('.auth-backdrop').style.display='none'; }));
+
+      const suErrorEl = (function(){ const d = document.createElement('div'); d.id='suError'; d.className='lf-inline-error'; const parent = document.querySelector('#signupBackdrop .auth-modal'); parent.insertBefore(d, parent.querySelector('.auth-actions')); return d; })();
+
+      document.getElementById('suSubmit').addEventListener('click', async ()=>{
+        const name = document.getElementById('suName').value.trim();
+        const email = document.getElementById('suEmail').value.trim();
+        const username = document.getElementById('suUsername').value.trim();
+        const pwd = document.getElementById('suPassword').value;
+        const rpt = document.getElementById('suRepeat').value;
+        const grade = document.getElementById('suGrade').value || null;
+        suErrorEl.textContent = '';
+        if(!name || !email || !username || !pwd){ suErrorEl.textContent = 'Please fill name, email, username and password'; return; }
+        if(pwd.length < 6){ suErrorEl.textContent = 'Password must be at least 6 characters'; return; }
+        if(pwd !== rpt){ suErrorEl.textContent = 'Passwords do not match'; return; }
+        const btn = document.getElementById('suSubmit'); btn.disabled = true; const spinner = document.createElement('span'); spinner.className='lf-spinner'; btn.prepend(spinner);
+        try{
+          const sup = window._lf_supabase;
+          // sign up and store small metadata (username, full name, grade)
+          const { data, error } = await sup.auth.signUp({ email, password: pwd }, { data: { full_name: name, username, grade } });
+          if(error){ suErrorEl.textContent = 'Sign up error: ' + error.message; return; }
+          // try to write a profiles row in the DB (requires `profiles` table + RLS policy)
+          try{
+            const userId = data && data.user && data.user.id ? data.user.id : (await sup.auth.getUser()).data.user?.id;
+            if(userId){
+              const profile = { id: userId, full_name: name, username: username, grade: grade, created_at: new Date().toISOString() };
+              const { error: pErr } = await sup.from('profiles').insert(profile);
+              if(pErr){ console.warn('profiles insert error (non-fatal):', pErr); }
+            }
+          }catch(pe){ console.warn('profiles write failed', pe); }
+          alert('Sign up successful. Please check your email if confirmation is required. You can now log in.');
+          signupBackdrop.style.display='none';
+          loginBackdrop.style.display='flex';
+        }catch(e){ console.error(e); alert('Sign up failed: '+String(e)); }
+        finally{ btn.disabled = false; if(spinner && spinner.parentNode) spinner.remove(); }
+      });
+
+      const liErrorEl = document.getElementById('liError');
+      document.getElementById('liSubmit').addEventListener('click', async ()=>{
+        liErrorEl.textContent = '';
+        const email = document.getElementById('liEmail').value.trim();
+        const pwd = document.getElementById('liPassword').value;
+        const remember = !!document.getElementById('liRemember').checked;
+        if(!email || !pwd){ liErrorEl.textContent = 'Enter email and password'; return; }
+        const btn = document.getElementById('liSubmit'); btn.disabled = true; const spinner = document.createElement('span'); spinner.className='lf-spinner'; btn.prepend(spinner);
+        try{
+          const sup = window._lf_supabase;
+          const { data, error } = await sup.auth.signInWithPassword({ email, password: pwd });
+          if(error){ liErrorEl.textContent = 'Login error: ' + error.message; return; }
+          // clear explicit-logout flag on successful login
+          try{ localStorage.removeItem('lf_explicit_logout'); }catch(e){}
+          // persist remember preference locally for auto-redirect decisions
+          try{ localStorage.setItem('lf_remember', remember ? 'true' : 'false'); }catch(e){}
+          // store only the email when remembering — do NOT store passwords in localStorage
+          try{ if(remember){ localStorage.setItem('lf_email', email); } else { localStorage.removeItem('lf_email'); } }catch(e){}
+          // on success redirect to teacher portal
+          window.location.href = 'teachers.html';
+        }catch(e){ console.error(e); liErrorEl.textContent = 'Login failed: '+String(e); }
+        finally{ btn.disabled = false; if(spinner && spinner.parentNode) spinner.remove(); }
+      });
+
+      // if a session exists, optionally auto-redirect to teacher portal
+      (async ()=>{
+        try{
+          const sup = window._lf_supabase;
+          const { data } = await sup.auth.getSession();
+          const remember = localStorage.getItem('lf_remember') === 'true';
+          if(data && data.session){
+            // Auto-redirect only when user previously opted into Remember me - otherwise show small prompt
+            if(remember){ window.location.href = 'teachers.html'; }
+            else {
+              // show a non-blocking banner offering to continue to portal
+              const b = document.createElement('div'); b.style.cssText='position:fixed;right:18px;bottom:18px;background:#fff;padding:12px;border-radius:10px;box-shadow:0 12px 36px rgba(0,0,0,0.12);z-index:1400';
+              b.innerHTML = `Signed in — <a href='teachers.html' style='font-weight:800;color:#2563eb'>Open Portal</a> <button id='lfDismiss' style='margin-left:8px;padding:6px;border-radius:8px;border:0;background:#eee'>Dismiss</button>`;
+              document.body.appendChild(b);
+              document.getElementById('lfDismiss').addEventListener('click', ()=> b.remove());
+            }
+          } else {
+            // No active session — prefill saved email (do not auto-login)
+            try{
+              if(localStorage.getItem('lf_explicit_logout') === 'true') return;
+              const savedEmail = localStorage.getItem('lf_email');
+              if(savedEmail){ const liEmailEl = document.getElementById('liEmail'); if(liEmailEl) liEmailEl.value = savedEmail; const note = document.createElement('div'); note.style.cssText='position:fixed;right:18px;bottom:18px;background:#fff;padding:10px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.08);z-index:1400;font-size:13px;color:var(--muted)'; note.textContent='Welcome back — enter your password to continue.'; document.body.appendChild(note); setTimeout(()=>note.remove(),3500); }
+            }catch(e){}
+          }
+        }catch(e){}
+      })();
+
+      // Auth-aware CTA: prefer showing signup/login when no session exists.
+      document.addEventListener('DOMContentLoaded', ()=>{
+        try{
+          const btn = document.getElementById('btnGetStarted'); if(!btn) return;
+          btn.addEventListener('click', async (ev)=>{
+            ev.preventDefault();
+            try{
+              const sup = window._lf_supabase;
+              if(!sup){
+                // library not loaded yet — show signup modal as safe default
+                const sb = document.getElementById('signupBackdrop'); if(sb) { sb.style.display='flex'; sb.querySelector('input')?.focus(); }
+                return;
+              }
+              const { data } = await sup.auth.getSession();
+              if(data && data.session){
+                window.location.href = 'teachers.html';
+              } else {
+                const sb = document.getElementById('signupBackdrop'); if(sb) { sb.style.display='flex'; sb.querySelector('input')?.focus(); }
+              }
+            }catch(err){ console.warn('GetStarted handler error', err); const sb = document.getElementById('signupBackdrop'); if(sb) { sb.style.display='flex'; } }
+          });
+        }catch(e){ console.warn('btnGetStarted wiring failed', e); }
+      });
+    }
+  </script>
+  <script>
+    // Ensure Get Started button is wired even if initAuth ran earlier or later.
+    (function wireGetStarted(){
+      try{
+        const btn = document.getElementById('btnGetStarted'); if(!btn) return;
+        // avoid double-wiring
+        if(btn.__wired) return; btn.__wired = true;
+        btn.addEventListener('click', async (ev)=>{
+          ev.preventDefault();
+          try{
+            const sup = window._lf_supabase;
+            if(!sup){ const sb = document.getElementById('signupBackdrop'); if(sb){ sb.style.display='flex'; sb.querySelector('input')?.focus(); } return; }
+            const { data } = await sup.auth.getSession();
+            if(data && data.session){ window.location.href = 'teachers.html'; }
+            else { const sb = document.getElementById('signupBackdrop'); if(sb){ sb.style.display='flex'; sb.querySelector('input')?.focus(); } }
+          }catch(e){ console.warn('btnGetStarted click failed', e); const sb = document.getElementById('signupBackdrop'); if(sb) sb.style.display='flex'; }
+        });
+      }catch(e){ console.warn('wireGetStarted failed', e); }
+    })();
+  </script>
+  <!-- Top-right mini-menu toggle script -->
+  <script>
+    (function(){
+      const btn = document.getElementById('mobileNavBtn');
+      const menu = document.getElementById('miniMenu');
+      if(!btn || !menu) return;
+      function open(){ menu.classList.add('open'); menu.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); }
+      function close(){ menu.classList.remove('open'); menu.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); }
+      btn.addEventListener('click', (ev)=>{ ev.stopPropagation(); if(menu.classList.contains('open')) close(); else open(); });
+      // close when clicking outside
+      document.addEventListener('click', (ev)=>{ if(menu.classList.contains('open') && !menu.contains(ev.target) && ev.target !== btn) close(); });
+      // close on link or button click inside menu
+      menu.querySelectorAll('a, button').forEach(el=> el.addEventListener('click', ()=> close()));
+      // wire mini actions to open the existing modals
+      const miniSignup = document.getElementById('miniSignup'); if(miniSignup) miniSignup.addEventListener('click', ()=> { document.getElementById('signupBackdrop').style.display='flex'; });
+      const miniLogin = document.getElementById('miniLogin'); if(miniLogin) miniLogin.addEventListener('click', ()=> { document.getElementById('loginBackdrop').style.display='flex'; });
+      // make hamburger visible if CSS shows it
+      btn.style.display = '';
+    })();
+  </script>
+</body>
+</html>
